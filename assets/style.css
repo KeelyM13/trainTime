@@ -1,0 +1,13 @@
+
+
+.jumbotron {
+    font-family: 'Josefin Sans', sans-serif;
+    background-color: red;
+    color: white;
+    text-transform: uppercase;
+}
+
+
+h2 {
+    text-transform: capitalize;
+}
