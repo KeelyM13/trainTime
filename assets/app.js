@@ -15,29 +15,33 @@ var destination = "";
 var frequencyMin = 0;
 var nextArrival = 0;
 var minsAway = 0;
+var newTrain;
 
-$("#run-search").on("click", function (event) {
+$("#addTrain").on("click", function (event) {
 
     event.preventDefault();
     var newRow = $("<tr>");
 
-    trainName = $("#trainName").val();
-    destination = $("#destination").val();
-    nextArrival = $("#nextArrival").val();
-    frequencyMin = $("frequencyMin").val();
+    trainName = $("#trainNameInput").val().trim();
+    destination = $("#destinationInput").val().trim();
+    nextArrival = $("#nextArrivalInput").val().trim();
+    frequencyMin = $("frequencyInput").val().trim();
 
-    console.log(name);
-    console.log(role);
-    console.log(startDate);
-    console.log(monthlyRate);
+    newTrain = {
+        name: trainName,
+        going: destination,
+        arrival: nextArrival,
+        freq: frequencyMin
+        
+    };
 
 
+
+
+database.ref().push(newTrain);
+
+$("#trainNameInput").val("");
+$("#destinationInput").val("");
+$("#nextArrivalInput").val("");
+$("frequencyInput").val("");
 });
-
-// database.ref().push(newEmp);
-// // Clears all of the text-boxes
-// $("#employee-name-input").val("");
-// $("#role-input").val("");
-// $("#start-input").val("");
-// $("#rate-input").val("");
-// });
