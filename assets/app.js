@@ -9,39 +9,63 @@ var config = {
   firebase.initializeApp(config);
 
   var database = firebase.database();
+  var currentTime = moment();
 
-var trainName = "";
-var destination = "";
-var frequencyMin = 0;
-var nextArrival = 0;
-var minsAway = 0;
-var newTrain;
+  database.ref().on("child_added", function(childSnap) {
+
+    var name = childSnap.val().name;
+    var going = childSnap.val().going;
+    var arrival = childSnap.val().arrival;
+    var freq = childSnap.val().freq;
+    var min = childSnap.val().min;
+    var next = childSnap.val().next;
+ 
+    $("#trainTable > tbody").append("<tr><td>" + name + "</td><td>" + going + "</td><td>" + freq + "</td><td>" + next + "</td><td>" + min + "</td></tr>");
+ });
+
+// var trainName = "";
+// var destination = "";
+// var frequencyMin = 0;
+// var nextArrival = 0;
+// var minsAway = 0;
+// var newTrain;
 
 $("#addTrain").on("click", function (event) {
 
     event.preventDefault();
-    var newRow = $("<tr>");
+    
 
-    trainName = $("#trainNameInput").val().trim();
-    destination = $("#destinationInput").val().trim();
-    nextArrival = $("#nextArrivalInput").val().trim();
-    frequencyMin = $("frequencyInput").val().trim();
+    var trainName = $("#trainNameInput").val().trim();
+    var destination = $("#destinationInput").val().trim();
+    var nextArrival = $("#nextArrivalInput").val().trim();
+    var frequencyMin = $("#frequencyInput").val().trim();
 
-    newTrain = {
+    var firstTrainConverted = moment(nextArrival, "hh:mm").subtract("1, years");
+
+    var difference = currentTime.diff(moment(firstTrainConverted), "minutes");
+    var remainder = difference % frequencyMin;
+    var minUntilTrain = frequencyMin - remainder;
+    var nextTrain = moment().add(minUntilTrain, "minutes").format("hh:mm a");
+
+    var newTrain = {
         name: trainName,
         going: destination,
         arrival: nextArrival,
-        freq: frequencyMin
+        freq: frequencyMin,
+        min: minUntilTrain,
+        next: nextTrain
         
     };
 
 
-
+console.log(newTrain);
 
 database.ref().push(newTrain);
 
 $("#trainNameInput").val("");
 $("#destinationInput").val("");
 $("#nextArrivalInput").val("");
-$("frequencyInput").val("");
+$("#frequencyInput").val("");
+
+
 });
