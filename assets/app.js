@@ -20,7 +20,7 @@ var config = {
     var min = childSnap.val().min;
     var next = childSnap.val().next;
  
-    $("#trainTable > tbody").append("<tr><td>" + name + "</td><td>" + going + "</td><td>" + freq + "</td><td>" + next + "</td><td>" + min + "</td></tr>");
+    $("#tableBody").append("<tr><td>" + name + "</td><td>" + going + "</td><td>" + freq + "</td><td>" + next + "</td><td>" + min + "</td></tr>");
  });
 
 // var trainName = "";
